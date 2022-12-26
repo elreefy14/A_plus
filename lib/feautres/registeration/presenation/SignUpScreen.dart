@@ -54,103 +54,116 @@ class SignUpScreen extends StatelessWidget {
                    SizedBox(
                     height: height * 0.02,
                   ),
-                  defaultFormField(
-                      controller: nameController,
-                      type: TextInputType.text,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return 'Name must not be empty';
-                        }
-                      },
-                 //     label: 'name',
-                      radius: 30),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  defaultFormField(
-                      controller: phoneController,
-                      type: TextInputType.phone,
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return '         Mobile No must not be empty';
-                        }
-                      },
-                      label: 'Mobile No',
-                      radius: 30),
-                   SizedBox(
-                    height: height * 0.02,
-                  ),
+                  //4 text fields with validation and controller and focus node and on submit to take name and phone and password and confirm password
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          controller: nameController,
 
-                  BlocConsumer<RegisterCubit, RegisterState>(
-  listener: (context, state) {
-    // TODO: implement liste
-    //  ner
-  },
-  builder: (context, state) {
-   var cubit = RegisterCubit.get(context);
-    return defaultFormField(
-                      controller: passwordController,
-                      type: TextInputType.visiblePassword,
-                      validate: (value) {
-                        if (value!.length < 6) {
-                          return '         Password is to short must be 6 digit or more';
-                        }
-                      },
-                      label: 'Password',
-                      suffix: cubit.suffix,
-                      isPassword: cubit.isVisable,
-                      suffixPressed: () {
-                        cubit.togglePasswordVisibilty();
-                        print('name controller ${nameController.text}');
-                      },
-                      radius: 30);
-  },
-),
-                   SizedBox(
-                    height: height * 0.02,
+                          icon: Icons.person,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          }, label: 'Name',
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        CustomTextField(
+                          label: 'Email',
+                          controller: emailController,
+                          icon: Icons.email,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        CustomTextField(
+                          label: 'Phone',
+                          controller: phoneController,
+                          icon: Icons.phone,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your phone';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        CustomTextField(
+                          label: 'Address',
+                          controller: addressController,
+                          icon: Icons.location_on,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your address';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        CustomTextField(
+                          label: 'Password',
+                          controller: passwordController,
+                          icon: Icons.lock,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        CustomTextField(
+                          label: 'Confirm Password',
+                          controller: confirmPasswordController,
+                          icon: Icons.lock,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter your confirm password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  BlocConsumer<RegisterCubit, RegisterState>(
-                 listener: (context, state) {
-                  // TODO: implement listener
-                     },
-               builder: (context, state) {
-               var cubit = RegisterCubit.get(context);
-             return defaultFormField(
-                      controller: confirmPasswordController,
-                      type: TextInputType.visiblePassword,
-                      validate: (value) {
-                        if (value != passwordController.text) {
-                          return 'Wrong password';
-                        }
-                      },
-                      label: 'Confirm Password',
-                      suffix: cubit.suffix,
-                      isPassword: cubit.isVisable,
-                      suffixPressed: () {
-                        cubit.togglePasswordVisibilty();
-                      },
-                      radius: 30);
-                 },
-              ),
                   SizedBox(
                     height: height * 0.02,
                   ),
+
+
                   BlocConsumer<FirebaseAuthCubit, FirebaseAuthState>(
                     listener: (context, state) {
                     },
                     builder: (context, state) {
                       return defaultButton(
                             function: () {
-                              if (formKey.currentState!.validate()) {
-                                FirebaseAuthCubit.get(context).signUp(
-                                    // password: passwordController.text,
-                                    // name: nameController.text,
-                                    // phone: phoneController.text,
-                                  password: passwordController.text,
-                                    name: nameController.text,
-                                    phone: phoneController.text,
-                               );
-                              }
+                              // if (formKey.currentState!.validate()) {
+                              //   FirebaseAuthCubit.get(context).signUp(
+                              //       // password: passwordController.text,
+                              //       // name: nameController.text,
+                              //       // phone: phoneController.text,
+                              //     password: passwordController.text,
+                              //       name: nameController.text,
+                              //       phone: phoneController.text,
+                              //  );
+                              // }
                             },
                             text: 'Sign Up',
                             radius: 30,
