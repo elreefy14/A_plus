@@ -4,13 +4,11 @@ import 'package:youtube_apis/core/constants/routes_manager.dart';
 import 'package:youtube_apis/core/constants/styles_manager.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/widget/widget.dart';
 import '../../../core/constants/my_color.dart';
-import '../../../network_exceptions.dart';
-import '../business_logic/auth_cubit/auth_cubit.dart';
-import '../business_logic/auth_cubit/auth_state.dart';
+import '../business_logic/auth_cubit/firebase_auth_cubit.dart';
 import '../business_logic/registeration_cubit/registeration_bloc.dart';
 import '../business_logic/registeration_cubit/registeration_state.dart';
 import 'login_screen.dart';
-
+//Todo:feh form bta3 il validation bs bydrably error
 class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,12 +16,17 @@ class SignUpScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     var emailController = TextEditingController();
-    var nameController = TextEditingController();
-    var phoneController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
     var addressController = TextEditingController();
-    var passwordController = TextEditingController();
-    var confirmPasswordController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
+    return BlocConsumer<RegisterCubit, RegisterState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
     return Scaffold(
           body: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -56,11 +59,10 @@ class SignUpScreen extends StatelessWidget {
                       type: TextInputType.text,
                       validate: (value) {
                         if (value!.isEmpty) {
-                          return '         Name must not be empty';
+                          return 'Name must not be empty';
                         }
                       },
-                      label: 'nam'
-                          'e',
+                 //     label: 'name',
                       radius: 30),
                   const SizedBox(
                     height: 25,
@@ -99,6 +101,7 @@ class SignUpScreen extends StatelessWidget {
                       isPassword: cubit.isVisable,
                       suffixPressed: () {
                         cubit.togglePasswordVisibilty();
+                        print('name controller ${nameController.text}');
                       },
                       radius: 30);
   },
@@ -107,17 +110,17 @@ class SignUpScreen extends StatelessWidget {
                     height: height * 0.02,
                   ),
                   BlocConsumer<RegisterCubit, RegisterState>(
-  listener: (context, state) {
-    // TODO: implement listener
-  },
-  builder: (context, state) {
-    var cubit = RegisterCubit.get(context);
-    return defaultFormField(
+                 listener: (context, state) {
+                  // TODO: implement listener
+                     },
+               builder: (context, state) {
+               var cubit = RegisterCubit.get(context);
+             return defaultFormField(
                       controller: confirmPasswordController,
                       type: TextInputType.visiblePassword,
                       validate: (value) {
                         if (value != passwordController.text) {
-                          return '         Wrong password';
+                          return 'Wrong password';
                         }
                       },
                       label: 'Confirm Password',
@@ -127,22 +130,23 @@ class SignUpScreen extends StatelessWidget {
                         cubit.togglePasswordVisibilty();
                       },
                       radius: 30);
-  },
-),
+                 },
+              ),
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  BlocConsumer<AuthCubit, AuthState>(
+                  BlocConsumer<FirebaseAuthCubit, FirebaseAuthState>(
                     listener: (context, state) {
                     },
                     builder: (context, state) {
-                      return state.when(
-                        idle: () =>     defaultButton(
+                      return defaultButton(
                             function: () {
                               if (formKey.currentState!.validate()) {
-                               AuthCubit.get(context).signUp(
-                                     email: emailController.text,
-                                    password: passwordController.text,
+                                FirebaseAuthCubit.get(context).signUp(
+                                    // password: passwordController.text,
+                                    // name: nameController.text,
+                                    // phone: phoneController.text,
+                                  password: passwordController.text,
                                     name: nameController.text,
                                     phone: phoneController.text,
                                );
@@ -150,24 +154,7 @@ class SignUpScreen extends StatelessWidget {
                             },
                             text: 'Sign Up',
                             radius: 30,
-                            isUpperCase: false),
-                        loading: () => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        success: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).pushNamed(AppRoutes.login);
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        error: (NetworkExceptions networkExceptions) {
-                          return Center(
-                            child: Text(NetworkExceptions.getErrorMessage(
-                                networkExceptions)),
-                          );
-                        },
-                      );
+                            isUpperCase: false);
                     },
                   ),
 
@@ -197,6 +184,8 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
         );
-      
+  },
+);
+
   }
 }
