@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:youtube_apis/feautres/registeration/presenation/SignUpScreen.dart';
 
 import '../../core/cashe_helper.dart';
 import '../registeration/presenation/login_screen.dart';
@@ -222,7 +223,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       if(value){
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
-              return LoginScreen();
+              return SignUpScreen();
             }));
       }
     });

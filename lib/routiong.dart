@@ -11,14 +11,14 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
      final args = settings.arguments;
     switch (settings.name) {
-       case AppRoutes.mainRoute:
-         return MaterialPageRoute(builder: (_) => LoginScreen());
-         //case morning azkar route
-        case AppRoutes.newPassword:
-          return MaterialPageRoute(builder: (_) => NewPasswordScreen());
-          //case evening azkar
-        case AppRoutes.resetCode:
-          return MaterialPageRoute(builder: (_) => ResetPasswordScreen());
+       // case AppRoutes.mainRoute:
+       //   return MaterialPageRoute(builder: (_) => LoginScreen());
+       //   //case morning azkar route
+       //  case AppRoutes.newPassword:
+       //    return MaterialPageRoute(builder: (_) => NewPasswordScreen());
+       //    //case evening azkar
+       //  case AppRoutes.resetCode:
+       //    return MaterialPageRoute(builder: (_) => ResetPasswordScreen());
           //case sleep azkar
         case AppRoutes.signUp:
           return MaterialPageRoute(builder: (_) =>SignUpScreen());

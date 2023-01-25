@@ -1,204 +1,165 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube_apis/core/constants/routes_manager.dart';
-import 'package:youtube_apis/core/constants/styles_manager.dart';
+import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
+import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
+import 'package:youtube_apis/feautres/registeration/presenation/reset_code_screen.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/widget/widget.dart';
-import '../../../core/constants/my_color.dart';
-import '../business_logic/auth_cubit/firebase_auth_cubit.dart';
-import '../business_logic/registeration_cubit/registeration_bloc.dart';
-import '../business_logic/registeration_cubit/registeration_state.dart';
-import 'login_screen.dart';
-//Todo:feh form bta3 il validation bs bydrably error
+
+import '../../../core/constants/styles_manager.dart';
+import '../business_logic/auth_cubit/auth_cubit.dart';
+import '../business_logic/auth_cubit/auth_state.dart';
+
 class SignUpScreen extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    return BlocProvider(
+      create: (context) => SignUpCubit(),
+      child: BlocConsumer<SignUpCubit, SocialStates>(
+        listener: (context, state) {
+          if (state is SignUpSuccessState) {
+            // Navigate to the next screen or perform other actions here
+          }
+        },
+        builder: (context, state) {
+          //height of the screen
+          var height = MediaQuery.of(context).size.height;
+          //width of the screen
+          var width = MediaQuery.of(context).size.width;
+          return Scaffold(
 
-    var emailController = TextEditingController();
-    TextEditingController nameController = TextEditingController();
-    TextEditingController phoneController = TextEditingController();
-    var addressController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
-    var formKey = GlobalKey<FormState>();
-    return BlocConsumer<RegisterCubit, RegisterState>(
-  listener: (context, state) {
-    // TODO: implement listener
-  },
-  builder: (context, state) {
-    return Scaffold(
-          body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding:  EdgeInsets.only(
-                  left: width * 0.05, right: width * 0.05
-              ,top: height * 0.15
-              ),
-              child: Column(
-                children: [
-                   SizedBox(
-                    height:height*0.031,
-                  ),
-                  Text(
-                    'Sign Up',
-                    style: getMediumStyle(color: Colors.black, fontSize: 30),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Text(
-                    'Add your details to Sign Up',
-                    style: getMediumStyle(color: Colors.grey, fontSize: 15),
-                  ),
-                   SizedBox(
-                    height: height * 0.02,
-                  ),
-                  //4 text fields with validation and controller and focus node and on submit to take name and phone and password and confirm password
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          controller: nameController,
-
-                          icon: Icons.person,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          }, label: 'Name',
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        CustomTextField(
-                          label: 'Email',
-                          controller: emailController,
-                          icon: Icons.email,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        CustomTextField(
-                          label: 'Phone',
-                          controller: phoneController,
-                          icon: Icons.phone,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your phone';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        CustomTextField(
-                          label: 'Address',
-                          controller: addressController,
-                          icon: Icons.location_on,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your address';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        CustomTextField(
-                          label: 'Password',
-                          controller: passwordController,
-                          icon: Icons.lock,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        CustomTextField(
-                          label: 'Confirm Password',
-                          controller: confirmPasswordController,
-                          icon: Icons.lock,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your confirm password';
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-
-
-                  BlocConsumer<FirebaseAuthCubit, FirebaseAuthState>(
-                    listener: (context, state) {
-                    },
-                    builder: (context, state) {
-                      return defaultButton(
-                            function: () {
-                              // if (formKey.currentState!.validate()) {
-                              //   FirebaseAuthCubit.get(context).signUp(
-                              //       // password: passwordController.text,
-                              //       // name: nameController.text,
-                              //       // phone: phoneController.text,
-                              //     password: passwordController.text,
-                              //       name: nameController.text,
-                              //       phone: phoneController.text,
-                              //  );
-                              // }
-                            },
-                            text: 'Sign Up',
-                            radius: 30,
-                            isUpperCase: false);
-                    },
-                  ),
-
-                   //sizedBox
-                  SizedBox(
-                    height: height * 0.02,),
-                  Row(
+            body: Form(
+              key: signUpFormKey,
+              child: Padding(
+                padding: EdgeInsets.all(width * 0.06),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  reverse: true,
+                  padding: EdgeInsets.only(top: height * 0.15),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Already have an Account?',
-                        style: Theme.of(context).textTheme.bodyText1,
+                      SizedBox(
+                        height:height*0.031,
                       ),
-                      TextButton(
-                          onPressed: () {
-                          //  navigateTo login screen with push named
-                            Navigator.pushNamed(context, AppRoutes.login);
-                            },
-                          child: Text(
-                            'Login',
-                            style: getMediumStyle(color: mainColor, fontSize: 20),
-                          ))
+                      Text(
+                        'Sign Up',
+                        style: getMediumStyle(color: Colors.black, fontSize: 30),
+                      ),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      Text(
+                        'Add your details to Sign Up',
+                        style: getMediumStyle(color: Colors.grey, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      defaultFormField(
+                          controller: emailController,
+                          type: TextInputType.emailAddress,
+                          validate: (value) {
+                            if (value==null || value.isEmpty) {
+                              return 'Email must not be empty';
+                            }
+                          },
+                          label: 'Email Address',
+                          radius: 30),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      defaultFormField(
+                          controller: phoneController,
+                          type: TextInputType.phone,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return 'Mobile No must not be empty';
+                            }
+                          },
+                          label: 'Mobile No',
+                          radius: 30),
+                      SizedBox(
+                        height: height * 0.02,
+                      ), defaultFormField(
+                          controller: passwordController,
+                          type: TextInputType.visiblePassword,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return 'Password must not be empty';
+                            }
+                          },
+                          label: 'Password',
+                          radius: 30),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      defaultFormField(
+                          controller: confirmPasswordController,
+                          type: TextInputType.visiblePassword,
+                          validate: (value)  {
+                            if (value==null || value.isEmpty) {
+                              return 'Please enter a confirm password';
+                            }
+                            if (value != passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          label: 'Confirm Password',
+                          radius: 30),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
+                      //elevated button
+                      BlocConsumer<OtpCubit, OtpState>(
+  listener: (context, state) {
+  if (state is OTPSent) {
+  // Navigate to the next screen or perform other actions here
+  navigateTo(context, ResetCodeScreen());
+  }
+  },
+  builder: (context, state) {
+    return ConditionalBuilder(condition:
+    state is! phoneNumberSubmittedLoading,
+         builder:
+        (context) => defaultButton(
+            function: () {
+              if (signUpFormKey.currentState!.validate()) {
+                  SignUpCubit.get(context).signUp(
+                    email: emailController.text,
+                    password: passwordController.text,
+                    phone: phoneController.text,
+                  ).then((value) {
+                    OtpCubit.get(context).phoneNumberSubmitted(phoneController.text);
+                  });
+
+              }
+            },
+            text: 'Sign Up',
+            radius: 30,
+            isUpperCase: false),
+        fallback:
+        (context) => Center(child: CircularProgressIndicator()));
+
+  },
+),
+
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
-        );
-  },
-);
-
+          );
+        },
+      ),
+    );
   }
 }

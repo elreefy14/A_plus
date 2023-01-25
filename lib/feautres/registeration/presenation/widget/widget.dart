@@ -4,70 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/constants/my_color.dart';
 
-Widget defaultFormField(
-    {required TextEditingController controller,
-      required TextInputType type,
-      Function? onSubmit,
-      Function? onChange,
-      bool isPassword = false,
-      required String? Function(String? val)? validate,
-      double radius = 0.0,
-      required String label,
-      IconData? prefix,
-      IconData? suffix,
-      Function? suffixPressed,
-      bool isClickable = true,
-      double width = double.infinity}) =>
-    Container(
-      width: width,
-      height: 55,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        color: Color(0xFFF2F2F2),
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-      ),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: type,
-        obscureText: isPassword,
-        enabled: isClickable,
-        onFieldSubmitted: (e) {
-          if (onSubmit != null) onSubmit(e);
-        },
-        onChanged: (s) {
-          if (onChange != null) onChange(s);
-        },
-        validator: validate,
-        textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-          errorStyle: TextStyle(
-            color: Colors.amber,
-          ),
-          border: InputBorder.none,
-          labelText: label,
-          hintText: label,
-          prefixIcon: Icon(
-            prefix,
-          ),
-          hintStyle: TextStyle(
-              fontFamily: 'Metropolis-Regular',
-              fontSize: 16,
-              color: placeholder),
-          suffixIcon: suffix != null
-              ? IconButton(
-            onPressed: () {
-              suffixPressed!();
-            },
-            icon: Icon(
-              suffix,
-            ),
-          )
-              : null,
-        ),
-      ),
-    );
+
 
 Widget defaultFormField2({
   required context,
@@ -140,6 +77,73 @@ void navigateAndFinsh(context, widget) => Navigator.pushAndRemoveUntil(
       (route) => false,
 );
 
+Widget defaultFormField(
+    {required TextEditingController controller,
+      required TextInputType type,
+      Function? onSubmit,
+      Function? onChange,
+      bool isPassword = false,
+      required String? Function(String? val)? validate,
+      double radius = 0.0,
+      String? label,
+      IconData? prefix,
+      IconData? suffix,
+      Function? suffixPressed,
+      bool isClickable = true,
+      double width = double.infinity}) =>
+    Container(
+      width: width,
+      height: 55,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      decoration: BoxDecoration(
+        color: Color(0xFFF2F2F2),
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: type,
+        obscureText: isPassword,
+        enabled: isClickable,
+        onFieldSubmitted: (e) {
+          if (onSubmit != null) onSubmit(e);
+        },
+        onChanged: (s) {
+          if (onChange != null) onChange(s);
+        },
+        validator: validate,
+        // textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          errorStyle: TextStyle(
+
+            overflow: TextOverflow.ellipsis,
+            height: 2.5,
+            color: Colors.red,
+          ),
+          border: InputBorder.none,
+          labelText: label,
+
+          prefixIcon: Icon(
+            prefix,
+          ),
+          hintStyle: TextStyle(
+              fontFamily: 'Metropolis-Regular',
+              fontSize: 16,
+              color: placeholder),
+          suffixIcon: suffix != null
+              ? IconButton(
+            onPressed: () {
+              suffixPressed!();
+            },
+            icon: Icon(
+              suffix,
+            ),
+          )
+              : null,
+        ),
+      ),
+    );
 Widget defaultButton({
   double width = double.infinity,
   double height = 45,
@@ -229,3 +233,46 @@ chooseToastColor(ToastStates state) {
 
 enum ToastStates { SUCCESS, ERROR, WARNING }
 
+Widget CustomTextField(
+    {required TextEditingController controller,
+      BuildContext ?context,
+      required String label,
+       IconData? icon,
+      TextInputType? type,
+       bool? isPassword,
+       Function(String)? validate,
+       Function(String)? onSubmit,
+       Function(String)? onChange,
+       FocusNode? focusNode,
+       FocusNode? nextFocusNode,
+       bool? isLast,
+    }) {
+return Padding(
+padding: const EdgeInsets.symmetric(vertical: 10),
+child: TextFormField(
+controller: controller,
+keyboardType: type,
+obscureText: isPassword?? false,
+onFieldSubmitted: (value) {
+
+},
+focusNode: focusNode,
+decoration: InputDecoration(
+labelText: label,
+prefixIcon: Icon(
+icon,
+color: Color(0xFFF2F2F2),
+),
+border: OutlineInputBorder(
+borderRadius: BorderRadius.circular(20),
+),
+focusedBorder: OutlineInputBorder(
+borderRadius: BorderRadius.circular(20),
+borderSide: BorderSide(
+color:Color(0xFFF2F2F2),
+),
+),
+),
+),
+);
+}

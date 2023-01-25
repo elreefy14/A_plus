@@ -1,17 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
-import 'package:youtube_apis/core/constants/font_manager.dart';
-import 'package:youtube_apis/core/constants/routes_manager.dart';
-import 'package:youtube_apis/core/constants/strings.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/widget/widget.dart';
+
+import '../business_logic/auth_cubit/otp_cubit.dart';
+
+
+
+import 'package:youtube_apis/core/constants/font_manager.dart';
+import 'package:youtube_apis/feautres/registeration/presenation/SignUpScreen.dart';
 
 import '../../../core/constants/my_color.dart';
 import '../../../core/constants/styles_manager.dart';
-import '../business_logic/auth_cubit/otp_cubit.dart';
-import 'new_password_screen.dart';
 
 class ResetCodeScreen extends StatelessWidget {
+  late String otp;
   @override
   Widget build(BuildContext context) {
    double height = MediaQuery.of(context).size.height;
@@ -21,87 +25,41 @@ class ResetCodeScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(
-                height: height * 0.1,
-              ),
               Text(
-                'We have sent an OTP to',
-                style:  getSemiBoldStyle(color: Colors.black, fontSize: FontSizeManager.s22),
+                'Verify Your Phome Number',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 40),
               Text(
-                'your Mobile',
-                style: getSemiBoldStyle(color: Colors.black, fontSize: FontSizeManager.s22),
+                'Enter your 6 digit Phome Number Sent to ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.grey),
               ),
-               SizedBox(
-                height: height * 0.03,
-              ),
-              Text(
-                'Please check your mobile number 010*******12',
-                style:  getMediumStyle(color: Colors.grey, fontSize: FontSizeManager.s18),
-              ),
-               SizedBox(
-                height: height * 0.05,
-              ),
-              BlocConsumer<OtpCubit, OtpState>(
-  listener: (context, state) {
-    if (state is OtpVerified) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NewPasswordScreen()));
-    }
-  },
-  builder: (context, state) {
-    return Pinput(
-
-                preFilledWidget: Text(
-                  '*',
-                  style: getRegularStyle(color: Colors.grey[800]!, fontSize: FontSizeManager.s40),
-                ),
-                showCursor: false,
-                length: 6,
-                submittedPinTheme: PinTheme(
-                  decoration: BoxDecoration(
-                      color: Color(0xFFF2F2F2),
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                followingPinTheme: PinTheme(
-                  decoration: BoxDecoration(
-                      color: Color(0xFFF2F2F2),
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                disabledPinTheme:
-                PinTheme(decoration: BoxDecoration(color: Colors.black)
-                ),
-                separator: SizedBox(
-                  width: width * 0.1,
-                ),
-                onCompleted: (String value) {
-                  OtpCubit.get(context).otpSubmitted(value);
-                },
-              );
-  },
-),
-               SizedBox(
-                height: height * 0.05,
-              ),
+              const SizedBox(height: 40),
+              _pinCodeField(context),
+              const SizedBox(height: 40),
               BlocConsumer<OtpCubit, OtpState>(
                 listener: (context, state)
                 {
                   if (state is OtpVerified) {
-                    Navigator.pushNamed(
+                    Navigator.push(
                         context,
-                        AppRoutes.newPassword);
+                        MaterialPageRoute(
+                            builder: (context) => SignUpScreen()));
+
+
+                  }else if (state is OTPLoading) {
+                    //widget for progress indicator
+                    _showProgressIndicator(context);
                   }
+
                 },
              builder: (context, state) {
                return defaultButton(
                   function: () {
-                    //show toast uncorrect code
+                    OtpCubit.get(context).otpSubmitted(otp);
                   showToast(state: ToastStates.ERROR, msg: 'uncorrect code');
                   },
                   text: 'Next',
@@ -127,11 +85,36 @@ class ResetCodeScreen extends StatelessWidget {
                         ),
                       ),
                 ],
-              )
+              ),
+              SizedBox(
+                height: height * 0.04,
+              ),
+
             ],
           ),
         ),
       ),
+    );
+  }
+  Widget _pinCodeField(context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 7,
+      child: PinCodeTextField(
+        animationType: AnimationType.slide,
+        animationCurve: Curves.linear,
+        length: 6,
+        onChanged: (String otp) {
+          print('otp value is $otp');
+          this.otp=otp;
+        },
+        appContext: context,
+      ),
+    );
+  }
+  Widget _showProgressIndicator(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
