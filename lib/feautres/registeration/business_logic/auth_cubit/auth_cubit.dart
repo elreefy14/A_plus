@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,8 +35,31 @@ void changePasswordVisibility(){
       );
       emit(SignUpSuccessState(value.user!.uid));
     }).catchError((error) {
-      print(error.toString());
-      emit(SignUpErrorState());
+      String? errorMessage;
+   switch (error.code) {
+         case "invalid-email":
+            if (kDebugMode) {
+              errorMessage = 'The email address is badly formatted.';
+            }
+            break;
+          case "user-not-found":
+            if (kDebugMode) {
+              errorMessage = 'No user found for that email.';
+            }
+            break;
+          case "wrong-password":
+            if (kDebugMode) {
+              errorMessage = 'Wrong password provided for that user.';
+            }
+            break;
+          default:
+            if (kDebugMode) {
+              errorMessage = 'The error is $error';
+            }
+    }
+      emit(SignUpErrorState(
+        error: errorMessage,
+      ));
     });
   }
 

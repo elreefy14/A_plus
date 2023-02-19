@@ -1,29 +1,34 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube_apis/core/constants/routes_manager.dart';
-import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/auth_cubit.dart';
-import 'package:youtube_apis/injection.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:youtube_apis/feautres/notification/business_logic/notification_cubit.dart';
 import 'package:youtube_apis/routiong.dart';
 import 'core/bloc_observer.dart';
+import 'core/cashe_helper.dart';
+import 'core/constants/routes_manager.dart';
+import 'core/network/web_services.dart';
 import 'feautres/home/business_logic/auth_cubit/home_cubit.dart';
-import 'feautres/home/business_logic/presenation/home.dart';
+import 'feautres/notification/presenation/notification_screen.dart';
 import 'feautres/registeration/business_logic/auth_cubit/firebase_auth_cubit.dart';
 import 'feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
 import 'feautres/registeration/business_logic/registeration_cubit/registeration_bloc.dart';
-import 'feautres/registeration/data/register_repo.dart';
-import 'feautres/registeration/presenation/SignUpScreen.dart';
-import 'feautres/registeration/presenation/login_screen.dart';
 import 'package:bot_toast/bot_toast.dart';
+//import notification_screen
 
-import 'feautres/registeration/presenation/reset_code_screen.dart';
-
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message:\n\n\n ${message.messageId}');
+}
 Future<void> main() async {
   //wait widget tree to be built
   WidgetsFlutterBinding.ensureInitialized();
   //init git it
   //initGetIt();
+  //init shared pref
+  await CacheHelper.init();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -41,6 +46,32 @@ Future<void> main() async {
   await Firebase.initializeApp(
       //options: DefaultFirebaseOptions.currentPlatform,
       );
+  await DioHelper.init();
+  FirebaseMessaging.onMessage.listen((event) {
+    print('onMessage\n\n\n');
+    print(event.notification!.title);
+    print(event.notification!.body);
+  });
+  // when click on notification to open app
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    print('onMessageOpenedApp\n\n\n\n\n\n\n');
+    print(event.notification!.title);
+    print(event.notification!.body);
+
+  });
+  // background notification
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  //firebase messaging PERMISSION
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
 
   //initGetIt();
   BlocOverrides.runZoned(() => runApp(const MyApp()),
@@ -54,7 +85,6 @@ Future<void> main() async {
   //    print(value.results![0].releaseDate);
   //  });
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -64,25 +94,58 @@ class MyApp extends StatelessWidget {
       providers: [
         // BlocProvider(create: (context) => getIt<AuthCubit>()),
         BlocProvider(create: (context) => OtpCubit()),
+        BlocProvider(create: (context) => NotificationCubit()),
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => FirebaseAuthCubit()),
-        BlocProvider(create: (context) => HomeCubit()..addCourse()
-        ..enrollCourse()),
-      ],
-      child: MaterialApp(
-        builder: BotToastInit(),
-        navigatorObservers: [BotToastNavigatorObserver()],
-        //debugShowCheckedModeBanner: false,
-        // home:  zoom(),
-        ///////////////////////
-        //initialRoute: AppRoutes.mainRoute,
-        //onGenerateRoute:RouteGenerator.generateRoute,
+        BlocProvider(create: (context) => HomeCubit()
+          //..sendNotification(
+         // 'integration test yto one', 'math'
+         //  )
+          // ..sendNotificationToAllStudent('1',
+          //   'integration test to math students')
+          //..enrollCourse(
+         // ' 7Ww1DVgs0gX6eeLochZfVHgIPKz2','1'
+        //),
+          //..firebaseMessagingGetToken()
+       // ..sendFCMNotification(
+        //    token: ' flDGSoGOR1GHNenJDDcdU2:APA91bFf1qqqHrmynn2I1Ql6j8y6_RlERSzbKktZYK4n48WL-JVG3vsfVB8Opr4ZV_M1P3QiYkPvdjcUOOGJWEBvBF-SNfCE41BkDFz7IvnoSPPOpNgcItRvUYj9ZBmaa4vCqq5nm_-L ', senderName: 'ahmed' ,messageImage: 'hiiii')
+         // ..sendNotification(
+          //  '6EAx9TEpHDc5N0ivwDEaTrufL2X2',
+        // 'math', 'en')
+       // ..getNotification('6EAx9TEpHDc5N0ivwDEaTrufL2X2')
 
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
         ),
-        home: HomeLayout(),
+      ],
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context , child) => MaterialApp(
+
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ar', "AE"),
+          ],
+
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
+          //debugShowCheckedModeBanner: false,
+          // home:  zoom(),
+          ///////////////////////
+          //initialRoute: AppRoutes.mainRoute,
+          //onGenerateRoute:RouteGenerator.generateRoute,
+
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          initialRoute: AppRoutes.payment,
+          onGenerateRoute:RouteGenerator.generateRoute,
+        ),
       ),
     );
   }

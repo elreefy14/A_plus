@@ -14,7 +14,8 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
 
@@ -25,7 +26,14 @@ class SignUpScreen extends StatelessWidget {
       child: BlocConsumer<SignUpCubit, SocialStates>(
         listener: (context, state) {
           if (state is SignUpSuccessState) {
-            // Navigate to the next screen or perform other actions here
+            //navigate to reset code screen using pushNamed
+
+            navigateTo(context, ResetCodeScreen());
+          } else if (state is SignUpErrorState) {
+            showToast(
+              msg: state.error ?? 'Error',
+              state: ToastStates.ERROR,
+            );
           }
         },
         builder: (context, state) {
@@ -34,7 +42,6 @@ class SignUpScreen extends StatelessWidget {
           //width of the screen
           var width = MediaQuery.of(context).size.width;
           return Scaffold(
-
             body: Form(
               key: signUpFormKey,
               child: Padding(
@@ -47,11 +54,12 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height:height*0.031,
+                        height: height * 0.031,
                       ),
                       Text(
                         'Sign Up',
-                        style: getMediumStyle(color: Colors.black, fontSize: 30),
+                        style:
+                            getMediumStyle(color: Colors.black, fontSize: 30),
                       ),
                       SizedBox(
                         height: height * 0.02,
@@ -67,7 +75,7 @@ class SignUpScreen extends StatelessWidget {
                           controller: emailController,
                           type: TextInputType.emailAddress,
                           validate: (value) {
-                            if (value==null || value.isEmpty) {
+                            if (value == null || value.isEmpty) {
                               return 'Email must not be empty';
                             }
                           },
@@ -88,7 +96,8 @@ class SignUpScreen extends StatelessWidget {
                           radius: 30),
                       SizedBox(
                         height: height * 0.02,
-                      ), defaultFormField(
+                      ),
+                      defaultFormField(
                           controller: passwordController,
                           type: TextInputType.visiblePassword,
                           validate: (value) {
@@ -104,8 +113,8 @@ class SignUpScreen extends StatelessWidget {
                       defaultFormField(
                           controller: confirmPasswordController,
                           type: TextInputType.visiblePassword,
-                          validate: (value)  {
-                            if (value==null || value.isEmpty) {
+                          validate: (value) {
+                            if (value == null || value.isEmpty) {
                               return 'Please enter a confirm password';
                             }
                             if (value != passwordController.text) {
@@ -120,38 +129,39 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       //elevated button
                       BlocConsumer<OtpCubit, OtpState>(
-  listener: (context, state) {
-  if (state is OTPSent) {
-  // Navigate to the next screen or perform other actions here
-  navigateTo(context, ResetCodeScreen());
-  }
-  },
-  builder: (context, state) {
-    return ConditionalBuilder(condition:
-    state is! phoneNumberSubmittedLoading,
-         builder:
-        (context) => defaultButton(
-            function: () {
-              if (signUpFormKey.currentState!.validate()) {
-                  SignUpCubit.get(context).signUp(
-                    email: emailController.text,
-                    password: passwordController.text,
-                    phone: phoneController.text,
-                  ).then((value) {
-                    OtpCubit.get(context).phoneNumberSubmitted(phoneController.text);
-                  });
-
-              }
-            },
-            text: 'Sign Up',
-            radius: 30,
-            isUpperCase: false),
-        fallback:
-        (context) => Center(child: CircularProgressIndicator()));
-
-  },
-),
-
+                        listener: (context, state) {
+                          if (state is OTPSent) {
+                            // Navigate to the next screen or perform other actions here
+                            navigateTo(context, ResetCodeScreen());
+                          }
+                        },
+                        builder: (context, state) {
+                          return ConditionalBuilder(
+                              condition: state is! phoneNumberSubmittedLoading,
+                              builder: (context) => defaultButton(
+                                  function: () {
+                                    if (signUpFormKey.currentState!
+                                        .validate()) {
+                                      SignUpCubit.get(context)
+                                          .signUp(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        phone: phoneController.text,
+                                      )
+                                          .then((value) {
+                                        OtpCubit.get(context)
+                                            .phoneNumberSubmitted(
+                                                phoneController.text);
+                                      });
+                                    }
+                                  },
+                                  text: 'Sign Up',
+                                  radius: 30,
+                                  isUpperCase: false),
+                              fallback: (context) =>
+                                  Center(child: CircularProgressIndicator()));
+                        },
+                      ),
                     ],
                   ),
                 ),

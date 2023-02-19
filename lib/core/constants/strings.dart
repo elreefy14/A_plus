@@ -9,9 +9,11 @@ String nowPlayingEndPoint='/movie/now_playing';
 String apiKey='api_key=1f54bd990f1cdfb230adb312546d765d';
 String phoneNumber= '';
 String token= '';
+List<Map<String, dynamic>> notifications = [];
 
      class AppStrings {
   static const String noRoutes = "No Routes Error";
+  static const String appTitle = "A Plus";
   static const error = "خطأ";
   static const titleApp = "بلغوا";
   static const titleAppNote = "بلغوا عني ولو آية";

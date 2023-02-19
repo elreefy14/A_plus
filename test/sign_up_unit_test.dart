@@ -1,72 +1,48 @@
 // import 'package:flutter_test/flutter_test.dart';
 // import 'package:mockito/mockito.dart';
+// import 'package:youtube_apis/core/network/web_services.dart';
+// import 'package:youtube_apis/feautres/notification/business_logic/notification_cubit.dart';
 //
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/auth_cubit.dart';
-//
-// class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+// class DioHelperMock extends Mock implements DioHelper {}
 //
 // void main() {
-//   group('SignUpCubit', () {
-//     SignUpCubit signUpCubit;
-//     MockFirebaseAuth mockFirebaseAuth;
+//   DioHelperMock dioHelperMock;
+//   NotificationCubit cubit;
 //
-//     setUp(() {
-//       mockFirebaseAuth = MockFirebaseAuth();
-//       signUpCubit = SignUpCubit();
-//     });
+//   setUp(() {
+//      dioHelperMock = DioHelperMock();
+//     cubit = NotificationCubit();
+//   });
 //
-//     final mockFirebaseAuth = MockFirebaseAuth();
-//     test('signUp successfully creates a user and emits SignUpSuccessState', () async {
-//       when(mockFirebaseAuth.createUserWithEmailAndPassword(
-//         email: 'test@email.com',
-//         password: 'password',
-//       )).thenAnswer((_) => Future.value(AuthResult(
-//         user: User(uid: '123'),
-//       )));
+//   test('sendFCMNotification should call postData with correct data', () async {
+//     // arrange
+//     final token = 'abc123';
+//     final senderName = 'Test User';
+//     final messageText = 'Hello World';
+//     final messageImage = null;
+//     when(dioHelperMock.postData(data: anyNamed('data'))).thenAnswer((_) => Future.value(null));
 //
-//       final expectedUser = UserModel(
-//         uID: '123',
-//         phone: '1234567890',
-//         email: 'test@email.com',
-//         dateTime: FieldValue.serverTimestamp(),
-//       );
+//     // act
+//     cubit.sendFCMNotification(token: token, senderName: senderName, messageText: messageText, messageImage: messageImage);
 //
-//       expectLater(
-//         signUpCubit,
-//         emitsInOrder([
-//           SignUpLoadingState(),
-//           SignUpSuccessState('123'),
-//         ]),
-//       );
-//
-//       signUpCubit.signUp(
-//         email: 'test@email.com',
-//         phone: '1234567890',
-//         password: 'password',
-//       );
-//     });
-//
-//     test('signUp emits SignUpErrorState if createUserWithEmailAndPassword throws an error', () async {
-//       when(mockFirebaseAuth.createUserWithEmailAndPassword(
-//         email: 'test@email.com',
-//         password: 'password',
-//       )).thenThrow(Exception());
-//
-//       expectLater(
-//         signUpCubit,
-//         emitsInOrder([
-//           SignUpLoadingState(),
-//           SignUpErrorState(),
-//         ]),
-//       );
-//
-//       signUpCubit.signUp(
-//         email: 'test@email.com',
-//         phone: '1234567890',
-//         password: 'password',
-//       );
-//     });
+//     // assert
+//       verify(dioHelperMock.postData(
+//         data: {
+//           "to": "$token",
+//           "notification": {
+//             "title": "$senderName",
+//             "body": "$messageText",
+//             "sound": "default"
+//           },
+//           "android": {
+//             "Priority": "HIGH",
+//           },
+//           "data": {
+//             "type": "order",
+//             "id": "87",
+//             "click_action": "FLUTTER_NOTIFICATION_CLICK"
+//           }
+//         }
+//     ));
 //   });
 // }

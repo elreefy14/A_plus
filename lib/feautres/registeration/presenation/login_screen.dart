@@ -16,8 +16,16 @@ class LoginScreen extends StatelessWidget {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
-          if (state is LoginSuccessState) {
-// Navigate to the next screen or perform other actions here
+          if (state is LoginErrorState) {
+            showToast(
+              msg: state.error,
+              state: ToastStates.ERROR,
+            );
+          }else if(state is LoginSuccessState){
+            showToast(
+              msg: 'Login Success',
+              state: ToastStates.SUCCESS,
+            );
           }
         },
         builder: (context, state) {

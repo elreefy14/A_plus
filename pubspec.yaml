@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_localizations:
+    sdk: flutter
   google_sign_in: ^5.4.3
   pin_code_fields: ^7.4.0
   mockito: ^5.3.2
@@ -40,7 +42,6 @@ dependencies:
   carousel_slider: ^4.0.0
   cached_network_image: ^3.1.0
   shared_preferences: ^2.0.7
-  flutter_svg: ^0.22.0
   smooth_page_indicator: ^1.0.0+2
   pinput: ^2.2.16
   modal_progress_hud_nsn: ^0.1.0-nullsafety-0
@@ -61,7 +62,6 @@ dependencies:
   freezed_annotation: ^2.1.0
   get_it: ^7.2.0
   json_annotation: ^4.6.0
-  json_serializable: ^6.3.1
   retrofit: ^3.0.1+1
   retrofit_generator: ^4.0.3
   equatable: ^2.0.5
@@ -69,10 +69,33 @@ dependencies:
   toast:
   fluttertoast: ^8.0.8
   bot_toast:
+  flutter_zoom_drawer: ^3.0.3
+  json_serializable: ^6.0.0
+  firebase_storage: ^11.0.10
+  firebase_messaging: ^14.2.1
+  flutter_local_notifications: ^9.0.0
+  flutter_animate: 1.0.0
+  flutter_cache_manager: 3.3.0
+  from_css_color: 2.0.0
+  google_fonts: 3.0.1
+  intl: 0.17.0
+  json_path: 0.4.1
+  page_transition: 2.0.4
+  provider: 6.0.4
+  sqflite: 2.2.0+2
+  timeago: 3.2.2
+  youtube_player_iframe: 3.1.0
+  flutterfire_ui: ^0.4.3+20
+  flutter_screenutil: ^5.6.1
+  pay: ^1.0.10
+
+
+
+
+
 dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test:
-    sdk: flutter
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -84,8 +107,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
+
   assets:
     - assets/images/
+    - assets/fonts/
+
+    - assets/
+    - assets/images/gpay.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -31,35 +32,36 @@ class LoginCubit extends Cubit<LoginState> {
         password: password
     ).then((value) {
       emit(LoginSuccessState(value.user!.uid));
-    }).catchError((error) {
+    }).catchError((FirebaseAuthException error) {
      // error?.printStackTrace();
 //transform firbase error to string which user could understand
-      String errorMessage;
+      String? errorMessage;
       switch (error.code) {
-        case "ERROR_INVALID_EMAIL":
-          errorMessage = "Invalid email";
+        case "invalid-email":
+          if (kDebugMode) {
+            errorMessage = 'The email address is badly formatted.';
+          }
           break;
-        case "ERROR_WRONG_PASSWORD":
-          errorMessage = "Wrong password";
+        case "user-not-found":
+          if (kDebugMode) {
+            errorMessage = 'No user found for that email.';
+          }
           break;
-        case "ERROR_USER_NOT_FOUND":
-          errorMessage = "User not found";
-          break;
-        case "ERROR_USER_DISABLED":
-          errorMessage = "User has been disabled";
-          break;
-        case "ERROR_TOO_MANY_REQUESTS":
-          errorMessage = "Too many requests, please try again later";
-          break;
-        case "ERROR_OPERATION_NOT_ALLOWED":
-          errorMessage = "Operation not allowed";
+        case "wrong-password":
+          if (kDebugMode) {
+            errorMessage = 'Wrong password provided for that user.';
+          }
           break;
         default:
-          errorMessage = "An error occurred, please try again later";
+          if (kDebugMode) {
+            errorMessage = 'The error is $error';
+          }
       }
+      print('error firebase:\n\n\n\n\n\n\n');
+      print(error.code);
       print('error message:\n\n\n\n\n\n\n');
       print(errorMessage);
-      emit(LoginErrorState(errorMessage));
+      emit(LoginErrorState(errorMessage??""));
     });
   }
 

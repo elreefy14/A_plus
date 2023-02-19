@@ -7,5 +7,17 @@ class AppRoutes {
   static const String resetCode = "/resetCode";
   static const String resetPassword = "/resetPassword";
   static const String signUp = "/signup";
+  //zoom
+  static const String zoom = "/zoom";
+  //home
+  static const String home = "/home";
+  //menu
+  static const String menu = "/menu";
+  //notification
+  static const String notification = "/notification";
+  //splash screen
+  static const String splashScreen = "/splashScreen";
+  //payment screen
+  static const String payment = "/payment";
 
 }

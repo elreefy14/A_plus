@@ -11,7 +11,10 @@ class SignUpSuccessState extends SocialStates {
   SignUpSuccessState(this.uId);
 }
 //SignUpErrorState
-class SignUpErrorState extends SocialStates {}
+class SignUpErrorState extends SocialStates {
+  final String? error;
+  SignUpErrorState({this.error});
+}
 //CreateUserLoadingState
 class CreateUserLoadingState extends SocialStates {}
 //CreateUserSuccessState

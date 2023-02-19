@@ -46,7 +46,7 @@ class FirebaseAuthCubit extends Cubit<FirebaseAuthState> {
     required String? uId,
     required String? name,
     required String? phone,
-  
+
   }) {
     emit(CreateUserLoadingState());
     UserModel model = UserModel(

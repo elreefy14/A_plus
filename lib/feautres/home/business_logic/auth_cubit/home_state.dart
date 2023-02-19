@@ -16,3 +16,13 @@ class enrollSuccessState extends HomeState {}
 class enrollErrorState extends HomeState {}
 //HomeErrorState
 class HomeErrorState extends HomeState {}
+//addCourseSuccessState
+class addCourseSuccessState extends HomeState {}
+//addCourseErrorState
+class addCourseErrorState extends HomeState {}
+//enrollCourseSuccessState
+class enrollCourseSuccessState extends HomeState {}
+//enrollCourseErrorState
+class enrollCourseErrorState extends HomeState {}
+class SendMessageSuccessState extends HomeState {}
+//SendMessageSuccessState
