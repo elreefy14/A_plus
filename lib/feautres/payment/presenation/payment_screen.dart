@@ -1,60 +1,65 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pay/pay.dart';
-import 'package:youtube_apis/feautres/payment/presenation/widget/home_widgets.dart';
 
-class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+class GooglePayScreen extends StatefulWidget {
+  const GooglePayScreen({Key? key}) : super(key: key);
 
   @override
+  State<GooglePayScreen> createState() => _GooglePayScreenState();
+}
+
+class _GooglePayScreenState extends State<GooglePayScreen> {
+  @override
   Widget build(BuildContext context) {
-
-
-    const _paymentItems = [
-      PaymentItem(
-        label: 'Total',
-        amount: '1.00 ',
-        status: PaymentItemStatus.final_price,
-      )
-    ];
-    //make google pay button
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment"),
-        centerTitle: true,
+        title: const Text('Google Pay'),
       ),
-      body: Center(
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //if platform is android then show google pay button
-            // googlePayButton,
-            // SizedBox(height: 16),
-            // applePayButton,
-            // if (Platform.isAndroid) googlePayButton,
-            // if (Platform.isIOS) applePayButton, use if else
-            
-
-            GooglePayButton(
-                paymentConfigurationAsset: 'gpay.json',
-                paymentItems: _paymentItems,
-                type: GooglePayButtonType.pay,
+            Container(
+              child: GooglePayButton(
+                paymentConfigurationAsset: JsonAssets.gpayAsset,
+                paymentItems: paymentItems,
+                onPaymentResult: onGooglePayResult,
+                // style: GooglePayButtonStyle.white,
                 margin: const EdgeInsets.only(top: 15.0),
-                onPaymentResult: (data) {
-
-                  print('Payment result: \n\n\n$data');
-                  print(data);
-
-                },
+                width: double.maxFinite,
                 loadingIndicator: const Center(
                   child: CircularProgressIndicator(),
                 ),
               ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  List<PaymentItem> get paymentItems {
+    const _paymentItems = [
+      PaymentItem(
+        label: 'Total',
+        amount: '1.00',
+        status: PaymentItemStatus.final_price,
+      ),
+    ];
+
+    return _paymentItems;
+  }
+
+  void onGooglePayResult(dynamic paymentResult) {
+    debugPrint(paymentResult.toString());
+  }
+}
+
+class JsonAssets {
+  JsonAssets._();
+
+  static const String gpayAsset =
+      'gpay.json';
 }

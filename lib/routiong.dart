@@ -54,7 +54,7 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) =>NotificationScreen());
           //payment screen
         case AppRoutes.payment:
-          return MaterialPageRoute(builder: (_) =>PaymentScreen());
+          return MaterialPageRoute(builder: (_) =>GooglePayScreen());
 
       default:
         return _errorRoute();

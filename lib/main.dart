@@ -13,6 +13,7 @@ import 'core/constants/routes_manager.dart';
 import 'core/network/web_services.dart';
 import 'feautres/home/business_logic/auth_cubit/home_cubit.dart';
 import 'feautres/notification/presenation/notification_screen.dart';
+import 'feautres/payment/data/purshase_api.dart';
 import 'feautres/registeration/business_logic/auth_cubit/firebase_auth_cubit.dart';
 import 'feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
 import 'feautres/registeration/business_logic/registeration_cubit/registeration_bloc.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   //init git it
   //initGetIt();
   //init shared pref
+//  await PurshaseApi.init();
   await CacheHelper.init();
 
   SystemChrome.setSystemUIOverlayStyle(
