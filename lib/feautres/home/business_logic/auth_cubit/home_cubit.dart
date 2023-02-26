@@ -11,6 +11,10 @@ import 'package:youtube_apis/feautres/home/data/course_model.dart';
 import '../../../../core/network/web_services.dart';
 import '../../../notification/data/notifiactionModel.dart';
 import '../../data/enrolled_model.dart';
+import '../../presenation/favourite.dart';
+import '../../presenation/home.dart';
+import '../../presenation/profile_screen.dart';
+import '../../presenation/search.dart';
 
 part 'home_state.dart';
 
@@ -18,6 +22,24 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
   static HomeCubit get(context) => BlocProvider.of(context);
   //COURSES ( course_id , courseName, map of chapter title and isChapterSeen)
+  int currentIndex = 0;
+  void changeIndex(int index) {
+    emit(HomeLoadingState());
+    currentIndex = index;
+    emit(HomeSuccessState());
+  }
+  List listOfScreens = [
+    HomeScreen(),
+    SearchScreen(),
+    FavoriteScreen(),
+    ProfileScreen(),
+  ];
+ List listOfRoutes = [
+    '/home',
+    '/search',
+    '/favorite',
+    '/profile',
+  ];
   void addCourse() {
 //fill CourseMode courseModel with data and add it to firebase emit success or error state
     CourseModel courseModel = CourseModel(

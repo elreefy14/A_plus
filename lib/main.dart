@@ -24,6 +24,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message:\n\n\n ${message.messageId}');
 }
 Future<void> main() async {
+
   //wait widget tree to be built
   WidgetsFlutterBinding.ensureInitialized();
   //init git it
@@ -31,7 +32,12 @@ Future<void> main() async {
   //init shared pref
 //  await PurshaseApi.init();
   await CacheHelper.init();
-
+  //prevent landscape mode
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       //make bottom bar transparent
@@ -124,14 +130,14 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context , child) => MaterialApp(
 
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('ar', "AE"),
-          ],
+          // localizationsDelegates: [
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          // supportedLocales: const [
+          //   Locale('ar', "AE"),
+          // ],
 
           builder: BotToastInit(),
           navigatorObservers: [BotToastNavigatorObserver()],
@@ -145,7 +151,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: AppRoutes.payment,
+          initialRoute: AppRoutes.zoom,
           onGenerateRoute:RouteGenerator.generateRoute,
         ),
       ),

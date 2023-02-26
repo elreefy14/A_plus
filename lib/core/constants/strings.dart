@@ -13,7 +13,7 @@ List<Map<String, dynamic>> notifications = [];
 
      class AppStrings {
   static const String noRoutes = "No Routes Error";
-  static const String appTitle = "A Plus";
+  static const String appTitle = "attack on math";
   static const error = "خطأ";
   static const titleApp = "بلغوا";
   static const titleAppNote = "بلغوا عني ولو آية";

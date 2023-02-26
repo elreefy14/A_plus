@@ -19,5 +19,13 @@ class AppRoutes {
   static const String splashScreen = "/splashScreen";
   //payment screen
   static const String payment = "/payment";
+//CourseContentScreen
+static const String courseContent = "/courseContent";
+//search screen
+static const String search = "/search";
+//favorite screen
+static const String favorite = "/favorite";
+//profile screen
+static const String profile = "/profile";
 
 }

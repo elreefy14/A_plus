@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
- const defaultColor = Color(0xFF00A9B6);
- const mainColor = Color(0xFF00A9B6);
- const primaryFontColor = Color(0xFF4a4b4d);
+ const defaultColor = Color(0xFF4CAF50);
+ const mainColor = Color(0xFF4CAF50);
+ const primaryFontColor = Color(0xFF333333);
  const secondaryFontColor = Color(0xFF7c7d7e);
  const placeholder = Color(0xFF959696);
 class MyColors {
   //save #081945 in static variable background color
   static const defaultColor = Color(0xFF00A9B6);
   //ToDo: save 0x411D2429 in static variable background color !!
-  static  const mainColor = Color(0xFFfc6011);
-  static  const background = Color(0xFF00A9B6);
- //static Color iconColor = Color(0xffDC8B18);
-  static Color iconColor = Colors.white;
+  //static  const mainColor = Color(0xFFfc6011);
+  static  const mainColor = Color(0xFF2E784C);
+  //background color
+  static Color backgroundColor = Color(0xffE5F5E0);
+ static Color iconColor = Color(0xffFFC107 );
+// static Color bottomNaviconColor = Color(0xff7BBF6A);
+ static Color bottomNaviconColor = Color(0xff666666);
+ static Color bottomNavColor = Color(0xffF2D04B);
+ static Color menuBackgroundColor = Color(0xffE0F7FA);
+ static Color scaffoldBackgroundColor = Color(0xffD4EDDA);
+
+  //static Color iconColor = Colors.white;
   //843BB9 in variable text color
   static Color textColor = Color(0xff843BB9);
   static const primaryFontColor = Color(0xFF4a4b4d);
-  static const secondaryFontColor = Color(0xFF7c7d7e);
+  static const secondaryFontColor = Color(0xFFFFFFFF);
   static  const placeholder = Color(0xFF959696);
   static var secondary = Color(0xff262c3a);
   static var dark = Color(0xFF8D8E98);
@@ -27,7 +35,7 @@ class MyColors {
   static const Color kWhiteColor = Color(0xFFFFFFFF);
   static const Color kBlackColor = Color(0xFF19191B);
   static const Color kYellowColor = Color(0xFFF2A33A);
-  static const Color kGreyColor = Color(0xFF767680);
+  static const Color kGreyColor = Color(0xFF333333);
   static const Color light = Color(0xFFF2F2F2);
   static Map<int, Color> swatch = {
     50: const Color(0x1Ae6aa29), //10%

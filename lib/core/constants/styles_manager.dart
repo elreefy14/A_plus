@@ -25,13 +25,13 @@ TextStyle getMediumStyle(
   return _getTextStyle(fontSize, FontWeightManager.medium, color);
 }
 
-//* semiBold
+//* semiBold 20
 TextStyle getSemiBoldStyle(
     {required double fontSize , required Color color}) {
   return _getTextStyle(fontSize, FontWeightManager.semiBold, color);
 }
 
-//* Bold
+//* Bold 24
 TextStyle getBoldStyle(
     {required double fontSize , required Color color}) {
   return _getTextStyle(fontSize, FontWeightManager.bold, color);

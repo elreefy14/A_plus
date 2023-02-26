@@ -34,3 +34,4 @@ Widget courseContainer({context,image,route,isDataExist=true}) {
     ),
   );
 }
+

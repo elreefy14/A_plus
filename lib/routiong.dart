@@ -6,8 +6,9 @@ import 'package:youtube_apis/feautres/registeration/presenation/reset_password_s
 
 import 'core/constants/routes_manager.dart';
 import 'core/constants/strings.dart';
+import 'feautres/courses/presenation/courseContent.dart';
 import 'feautres/home/presenation/Menu.dart';
-import 'feautres/home/presenation/home.dart';
+import 'feautres/home/presenation/home_layout.dart';
 import 'feautres/home/presenation/zoom_drawer.dart';
 import 'feautres/notification/presenation/notification_screen.dart';
 import 'feautres/payment/presenation/payment_screen.dart';
@@ -47,7 +48,7 @@ class RouteGenerator {
         case AppRoutes.zoom:
           return MaterialPageRoute(builder: (_) =>ZoomScreen());
         case AppRoutes.home:
-          return MaterialPageRoute(builder: (_) =>HomeScreen());
+          return MaterialPageRoute(builder: (_) =>HomeLayoutScreen());
         case AppRoutes.menu:
           return MaterialPageRoute(builder: (_) =>MenuScreen());
         case AppRoutes.notification:
@@ -55,6 +56,9 @@ class RouteGenerator {
           //payment screen
         case AppRoutes.payment:
           return MaterialPageRoute(builder: (_) =>GooglePayScreen());
+   //courseContent
+     case AppRoutes.courseContent:
+       return MaterialPageRoute(builder: (_) =>CourseContentScreen());
 
       default:
         return _errorRoute();

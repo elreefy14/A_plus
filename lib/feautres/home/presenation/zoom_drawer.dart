@@ -8,7 +8,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../../../core/constants/my_color.dart';
 import '../business_logic/auth_cubit/home_cubit.dart';
 import 'Menu.dart';
-import 'home.dart';
+import 'home_layout.dart';
 
 class ZoomScreen extends StatefulWidget {
   @override
@@ -31,16 +31,17 @@ class _HomeLayoutState
   builder: (context, state) {
     return  //ZoomDrawer
     ZoomDrawer(
-      mainScreenScale: .4,
-      menuBackgroundColor: MyColors.background,
+      angle: -12.0,
+      borderRadius: 40.0,
       style: DrawerStyle.defaultStyle,
-      isRtl: true,
-     angle:0 ,
-     // style: DrawerStyle.Style1,
+      showShadow: true,
+      drawerShadowsBackgroundColor: Colors.orangeAccent,
+      menuBackgroundColor: MyColors.menuBackgroundColor,
+      isRtl: false,
       menuScreen: MenuScreen(),
-      mainScreen: HomeScreen(),
+      mainScreen: HomeLayoutScreen(),
     );
-  },
-);
+   },
+   );
   }
 }
