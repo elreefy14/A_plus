@@ -13,10 +13,11 @@ import 'feautres/home/presenation/zoom_drawer.dart';
 import 'feautres/notification/presenation/notification_screen.dart';
 import 'feautres/payment/presenation/payment_screen.dart';
 import 'feautres/registeration/presenation/SignUpScreen.dart';
+import 'feautres/registeration/presenation/reset_code_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-     final args = settings.arguments;
+     var args = settings.arguments;
     switch (settings.name) {
       //  static const String mainRoute = "/main";
     //   static const String login = "/login";
@@ -43,9 +44,18 @@ class RouteGenerator {
   //        return MaterialPageRoute(builder: (_) =>NewPasswordScreen());
   //      case AppRoutes.resetPassword:
    //       return MaterialPageRoute(builder: (_) =>ResetPasswordScreen());
-      //  case AppRoutes.resetCode:
-      //    return MaterialPageRoute(builder: (_) =>ResetCodeScreen());
-        case AppRoutes.zoom:
+        case AppRoutes.resetCode: //send email,phone,password as args map
+          final args = settings.arguments;
+          if (args is Map<String, dynamic>) {
+            return MaterialPageRoute(builder: (_) => ResetCodeScreen(
+              email: args['email'],
+              phone: args['phone'],
+              password: args['password'],
+            ));
+          }
+          throw ArgumentError("Invalid arguments: $args");
+
+      case AppRoutes.zoom:
           return MaterialPageRoute(builder: (_) =>ZoomScreen());
         case AppRoutes.home:
           return MaterialPageRoute(builder: (_) =>HomeLayoutScreen());

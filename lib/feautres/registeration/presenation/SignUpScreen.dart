@@ -1,11 +1,14 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:youtube_apis/core/constants/routes_manager.dart';
 import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
 import 'package:youtube_apis/feautres/registeration/business_logic/auth_cubit/otp_cubit.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/reset_code_screen.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/widget/widget.dart';
 
+import '../../../core/constants/font_manager.dart';
 import '../../../core/constants/styles_manager.dart';
 import '../business_logic/auth_cubit/auth_cubit.dart';
 import '../business_logic/auth_cubit/auth_state.dart';
@@ -26,9 +29,9 @@ class SignUpScreen extends StatelessWidget {
       child: BlocConsumer<SignUpCubit, SocialStates>(
         listener: (context, state) {
           if (state is SignUpSuccessState) {
-            //navigate to reset code screen using pushNamed
+            //navigate to reset code screen using pushNamed send the phone number and email and password as argument
 
-            navigateTo(context, ResetCodeScreen());
+
           } else if (state is SignUpErrorState) {
             showToast(
               msg: state.error ?? 'Error',
@@ -58,15 +61,14 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       Text(
                         'Sign Up',
-                        style:
-                            getMediumStyle(color: Colors.black, fontSize: 30),
+                     style: getBoldStyle(fontSize: FontSizeManager.s30, color: Colors.black),
                       ),
                       SizedBox(
                         height: height * 0.02,
                       ),
                       Text(
                         'Add your details to Sign Up',
-                        style: getMediumStyle(color: Colors.grey, fontSize: 15),
+                        style: getRegularStyle(fontSize: FontSizeManager.s16, color: Colors.grey),
                       ),
                       SizedBox(
                         height: height * 0.02,
@@ -80,7 +82,7 @@ class SignUpScreen extends StatelessWidget {
                             }
                           },
                           label: 'Email Address',
-                          radius: 30),
+                          radius: 30.r),
                       SizedBox(
                         height: height * 0.02,
                       ),
@@ -93,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
                             }
                           },
                           label: 'Mobile No',
-                          radius: 30),
+                          radius: 30.r),
                       SizedBox(
                         height: height * 0.02,
                       ),
@@ -106,7 +108,7 @@ class SignUpScreen extends StatelessWidget {
                             }
                           },
                           label: 'Password',
-                          radius: 30),
+                          radius: 30.r),
                       SizedBox(
                         height: height * 0.02,
                       ),
@@ -123,7 +125,7 @@ class SignUpScreen extends StatelessWidget {
                             return null;
                           },
                           label: 'Confirm Password',
-                          radius: 30),
+                          radius: 30.r),
                       SizedBox(
                         height: height * 0.02,
                       ),
@@ -132,7 +134,15 @@ class SignUpScreen extends StatelessWidget {
                         listener: (context, state) {
                           if (state is OTPSent) {
                             // Navigate to the next screen or perform other actions here
-                            navigateTo(context, ResetCodeScreen());
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.resetCode,
+                              arguments: {
+                                'email': emailController.text,
+                                'phone': phoneController.text,
+                                'password': passwordController.text,
+                              },
+                            );
                           }
                         },
                         builder: (context, state) {
@@ -142,22 +152,26 @@ class SignUpScreen extends StatelessWidget {
                                   function: () {
                                     if (signUpFormKey.currentState!
                                         .validate()) {
-                                      SignUpCubit.get(context)
-                                          .signUp(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                        phone: phoneController.text,
-                                      )
-                                          .then((value) {
+                                      // SignUpCubit.get(context)
+                                      //     .signUp(
+                                      //   email: emailController.text,
+                                      //   password: passwordController.text,
+                                      //   phone: phoneController.text,
+                                      // )
                                         OtpCubit.get(context)
                                             .phoneNumberSubmitted(
                                                 phoneController.text);
-                                      });
                                     }
                                   },
                                   text: 'Sign Up',
-                                  radius: 30,
-                                  isUpperCase: false),
+                                  radius: 30.r,
+                                  isUpperCase: false,
+                                fontSize: FontSizeManager.s16,
+                                height: 45.h,
+                                width: 0.8.sw,
+
+
+                              ),
                               fallback: (context) =>
                                   Center(child: CircularProgressIndicator()));
                         },

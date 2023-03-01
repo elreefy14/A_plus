@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/widget/widget.dart';
-
 import '../business_logic/auth_cubit/otp_cubit.dart';
-
-
-
 import 'package:youtube_apis/core/constants/font_manager.dart';
 import 'package:youtube_apis/feautres/registeration/presenation/SignUpScreen.dart';
-
 import '../../../core/constants/my_color.dart';
 import '../../../core/constants/styles_manager.dart';
 
 class ResetCodeScreen extends StatelessWidget {
+  //take mobile number and email and password from sign up screen
+  final String email;
+  final String phone;
+  final String password;
+  ResetCodeScreen({required this.email, required this.phone, required this.password});
   late String otp;
   @override
   Widget build(BuildContext context) {

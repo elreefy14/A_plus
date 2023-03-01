@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: AppRoutes.zoom,
+          initialRoute: AppRoutes.signUp,
           onGenerateRoute:RouteGenerator.generateRoute,
         ),
       ),

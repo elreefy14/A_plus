@@ -66,8 +66,8 @@ Widget _buildMobileLayout(context) {
   return Container(
     child: BlocBuilder<NotificationCubit, NotificationState>(
       builder: (context, state) {
-
         return FirestoreListView(
+
           cacheExtent: 20,
           pageSize: 2,
           query:

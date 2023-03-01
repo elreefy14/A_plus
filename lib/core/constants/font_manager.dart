@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+// Text(
+//             'Regular text',
+//             style: getRegularStyle(fontSize: FontSizeManager.s16, color: Colors.black),
+//           ),
+//           Text(
+//             'Medium text',
+//             style: getMediumStyle(fontSize: FontSizeManager.s18, color: Colors.red),
+//           ),
+//           Text(
+//             'Semi-bold text',
+//             style: getSemiBoldStyle(fontSize: FontSizeManager.s20, color: Colors.green),
+//           ),
+//           Text(
+//             'Bold text',
+//             style: getBoldStyle(fontSize: FontSizeManager.s22, color: Colors.blue),
+//           ),
 class FontFamilyNames {
   static const String messiriFont = "ElMessiri";
 }
